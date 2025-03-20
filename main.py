@@ -21,17 +21,6 @@ conn.commit()
 
 ADMIN_EMAIL = "edehwww@gmail.com"  # البريد الخاص بالمشرف
 
-def remove_expired_bookings():
-    """إزالة الحجوزات التي مر عليها 24 ساعة من تاريخ إنشائها."""
-    now = datetime.now()
-    cursor.execute("SELECT id, created_at FROM bookings")
-    expired_bookings = cursor.fetchall()
-    for booking in expired_bookings:
-        created_at = datetime.strptime(booking[1], "%Y-%m-%d %H:%M:%S")
-        if now - created_at > timedelta(hours=24):
-            cursor.execute("DELETE FROM bookings WHERE id = ?", (booking[0],))
-            conn.commit()
-
 def delete_booking(index, is_admin):
     """يسمح بالحذف فقط إذا كان المستخدم مشرف"""
     if is_admin:
@@ -56,8 +45,14 @@ def add_booking(user, phone, time):
     conn.commit()
 
 def App():
-    remove_expired_bookings()
-    
+    # تم حذف ميزة حذف الحجوزات التلقائية
+
+    # إضافة الصورة كواجهة للموقع
+    put_html('<div style="text-align:center;">'
+             '<img src="https://i.postimg.cc/NMY7p2Jm/IMG-20250308-WA0003.jpg" '
+             'style="width:100%; max-width: 800px; border-radius: 10px;" />'
+             '</div>')
+
     popup("🎉 مرحبا بكم في موقعنا لحجز المباريات 🎉")
 
     # اختيار دور المستخدم: مشرف أم زائر
