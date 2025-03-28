@@ -45,7 +45,11 @@ def add_booking(user, phone, time):
     conn.commit()
 
 def App():
-    # تم حذف ميزة حذف الحجوزات التلقائية
+    # إضافة الشفرة الإعلانية في أعلى الصفحة
+    put_html('''
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7516051845423430"
+         crossorigin="anonymous"></script>
+    ''')
 
     # إضافة الصورة كواجهة للموقع
     put_html('<div style="text-align:center;">'
@@ -95,6 +99,6 @@ def App():
     else:
         put_html('<center><p>📲 للحجز اتواصل معنا ليتم عرضك في قائمة الحجوزات</p></center>')
 
-# 🔹 تشغيل التطبيق على المنفذ الذي يحدده Render
-PORT = int(os.getenv("PORT", 10000))  
+# تشغيل التطبيق على المنفذ الذي يحدده Render أو المنفذ 10000 بشكل افتراضي
+PORT = int(os.getenv("PORT", 10000))
 start_server(App, port=PORT, debug=True)
