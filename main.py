@@ -1,9 +1,9 @@
 from pywebio import start_server
 from pywebio.input import input, input_group, radio
-from pywebio.output import put_text, put_html, put_table, popup, toast, clear, put_buttons
-from datetime import datetime, timedelta
+from pywebio.output import put_text, put_html, put_table, toast, clear, put_buttons
+from datetime import datetime
 import sqlite3
-import os  # لاستيراد مكتبة os للحصول على المنفذ من البيئة
+import os
 
 # الاتصال بقاعدة البيانات مع تفعيل check_same_thread=False
 conn = sqlite3.connect("bookings.db", check_same_thread=False)
@@ -22,7 +22,7 @@ conn.commit()
 ADMIN_EMAIL = "edehwww@gmail.com"  # البريد الخاص بالمشرف
 
 def delete_booking(index, is_admin):
-    """يسمح بالحذف فقط إذا كان المستخدم مشرف"""
+    """يسمح بالحذف فقط إذا كان المستخدم مشرفًا"""
     if is_admin:
         cursor.execute("DELETE FROM bookings WHERE id = ?", (index,))
         conn.commit()
@@ -33,35 +33,91 @@ def delete_booking(index, is_admin):
     App()
 
 def get_bookings():
-    """جلب الحجوزات من قاعدة البيانات."""
+    """جلب الحجوزات من قاعدة البيانات"""
     cursor.execute("SELECT id, user, phone, time FROM bookings")
     return cursor.fetchall()
 
 def add_booking(user, phone, time):
-    """إضافة حجز جديد إلى قاعدة البيانات."""
+    """إضافة حجز جديد إلى قاعدة البيانات"""
     created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    cursor.execute("INSERT INTO bookings (user, phone, time, created_at) VALUES (?, ?, ?, ?)", 
+    cursor.execute("INSERT INTO bookings (user, phone, time, created_at) VALUES (?, ?, ?, ?)",
                    (user, phone, time, created_at))
     conn.commit()
 
 def App():
-    # إضافة العلامات الوصفية والإعلانية في أعلى الصفحة
+    """واجهة التطبيق الرئيسية"""
     put_html('''
     <meta name="google-adsense-account" content="ca-pub-7516051845423430">
-    <meta name="description" content="هذا الموقع مخصص لحجز المباريات. للتعليمات البرمجية والمساعدة التقنية، يرجى متابعة التحديثات.">
+    <meta name="description" content="هذا الموقع مخصص لحجز المباريات.">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7516051845423430"
          crossorigin="anonymous"></script>
+    <style>
+        html, body {
+            background-image: url('https://www2.0zz0.com/2025/03/29/09/901974005.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            color: yellow;
+        }
+        *:not(html):not(body) {
+            background: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
+            color: yellow;
+        }
+        .pywebio-container,
+        .pywebio-content,
+        .form-group,
+        .input-group,
+        .radio-group,
+        .checkbox-group,
+        .widget {
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+        h3, p {
+            font-size: 22px;
+        }
+        .radio-group label, .input-group label, .form-group label {
+            font-size: 20px;
+        }
+        .pywebio-container {
+            font-size: 20px;
+        }
+
+        /* نلغي أي خلفية مفروضة على الأزرار لتبقى خلفيتها الافتراضية */
+        .pywebio-container button {
+            background-color: initial !important;
+        }
+        
+        /* استهداف أزرار النموذج باستخدام محددات nth-of-type */
+        /* نفترض أن زر "التقدم" هو الأول في النموذج */
+        .pywebio-form button:nth-of-type(1) {
+            color: green !important;
+        }
+        /* وزر "إعادة ضبط" هو الثاني */
+        .pywebio-form button:nth-of-type(2) {
+            color: red !important;
+        }
+        
+        .pywebio-container button:hover {
+            opacity: 0.8;
+        }
+    </style>
     ''')
 
-    # إضافة الصورة كواجهة للموقع
-    put_html('<div style="text-align:center;">'
-             '<img src="https://i.postimg.cc/NMY7p2Jm/IMG-20250308-WA0003.jpg" '
-             'style="width:100%; max-width: 800px; border-radius: 10px;" />'
-             '</div>')
+    put_html('''
+        <div style="text-align:center;">
+            <img src="https://i.postimg.cc/NMY7p2Jm/IMG-20250308-WA0003.jpg" 
+                 style="width:100%; max-width: 800px; border-radius: 10px;" />
+        </div>
+    ''')
 
-    popup("🎉 مرحبا بكم في موقعنا لحجز المباريات 🎉")
-
-    # اختيار دور المستخدم: مشرف أم زائر
+    # اختيار دور المستخدم
     role = radio("حدد نوع المستخدم", options=["أنا مشرف", "متابعة كزائر"])
     is_admin = False
     if role == "أنا مشرف":
@@ -84,6 +140,7 @@ def App():
         put_html('<center><p style="color:#3498db;">❌ لا يوجد حجوزات حتى الآن</p></center>')
 
     if is_admin:
+        # هنا نموذج الحجز الجديد
         data = input_group("📝 حجز مباراة جديدة", [
             input('👤 ادخل اسم اللاعب', name='user', required=True),
             input('📞 ادخل رقم الهاتف', name='phone', required=True),
@@ -101,6 +158,6 @@ def App():
     else:
         put_html('<center><p>📲 للحجز اتواصل معنا ليتم عرضك في قائمة الحجوزات</p></center>')
 
-# تشغيل التطبيق على المنفذ الذي يحدده Render أو المنفذ 10000 بشكل افتراضي
+# تشغيل التطبيق
 PORT = int(os.getenv("PORT", 10000))
 start_server(App, port=PORT, debug=True)
