@@ -3,7 +3,7 @@ from pywebio.input import input, input_group, radio
 from pywebio.output import put_text, put_html, put_table, popup, toast, clear, put_buttons
 from datetime import datetime, timedelta
 import sqlite3
-import os  # استيراد مكتبة os للحصول على المنفذ من البيئة
+import os  # لاستيراد مكتبة os للحصول على المنفذ من البيئة
 
 # الاتصال بقاعدة البيانات مع تفعيل check_same_thread=False
 conn = sqlite3.connect("bookings.db", check_same_thread=False)
@@ -45,8 +45,10 @@ def add_booking(user, phone, time):
     conn.commit()
 
 def App():
-    # إضافة الشفرة الإعلانية في أعلى الصفحة
+    # إضافة العلامات الوصفية والإعلانية في أعلى الصفحة
     put_html('''
+    <meta name="google-adsense-account" content="ca-pub-7516051845423430">
+    <meta name="description" content="هذا الموقع مخصص لحجز المباريات. للتعليمات البرمجية والمساعدة التقنية، يرجى متابعة التحديثات.">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7516051845423430"
          crossorigin="anonymous"></script>
     ''')
@@ -69,7 +71,7 @@ def App():
             toast("🎉 مرحباً مشرف الموقع!", color="success")
         else:
             toast("❌ بيانات المشرف غير صحيحة!", color="error")
-    
+
     put_html('<center><h3>📅 المواعيد المحجوزة</h3></center>')
     bookings = get_bookings()
     if bookings:
