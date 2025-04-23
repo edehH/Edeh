@@ -54,7 +54,7 @@ def main():
     </style>
 
     <div class="container">
-        <h1>موقع شركتنا</h1>
+        <h2>مواقعنا على منصات التواصل</h2>
         <div class="social-buttons">
             <a href="https://www.facebook.com/fars.bla.frs.671146" class="social-button facebook" target="_blank">فيسبوك</a>
             <a href="https://www.youtube.com/@Programmer-s-Diary" class="social-button youtube" target="_blank">يوتيوب</a>
@@ -63,7 +63,7 @@ def main():
     </div>
 
     <div class="container">
-        <h2>رافع الموقع</h2>
+        <h3>منصات لرفع وموقعك مجانا</h3>
         <div class="social-buttons">
             <a href="https://github.com/your-username/your-repo" class="social-button github" target="_blank">GitHub</a>
             <a href="https://render.com/your-app-link" class="social-button render" target="_blank">Render</a>
