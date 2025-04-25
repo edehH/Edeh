@@ -19,7 +19,7 @@ def main():
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        h1, h2 {
+        h2 {
             margin-bottom: 10px;
             color: #2c3e50;
         }
@@ -43,8 +43,6 @@ def main():
         .facebook  { background-color: #1877F2; }
         .youtube   { background-color: #FF0000; }
         .instagram { background-color: #C13584; }
-        .github    { background-color: #333333; }
-        .render    { background-color: #00D3F7; }
         @media (max-width: 600px) {
             .social-button {
                 padding: 8px 12px;
@@ -57,19 +55,11 @@ def main():
         <h2>مواقعنا على منصات التواصل</h2>
         <div class="social-buttons">
             <a href="https://www.facebook.com/fars.bla.frs.671146" class="social-button facebook" target="_blank">فيسبوك</a>
-            <a href="https://www.youtube.com/@Programmer-s-Diary" class="social-button youtube" target="_blank">يوتيوب</a>
+            <a href="https://www.youtube.com/@%D9%8A%D9%8E%D9%88%D9%92%D9%85%D9%90%D9%8A%D9%8E%D8%A7%D8%AA%D9%92-%D9%85%D9%8F%D8%A8%D9%8E%D8%B1%D9%92%D9%85%D9%90%D8%AC%D9%92-%D9%85%D9%91%D9%8E%D8%B2%D9%8F%D8%AC%D9%92" class="social-button youtube" target="_blank">يوتيوب</a>
             <a href="https://www.instagram.com/frsbl_frs" class="social-button instagram" target="_blank">انستغرام</a>
         </div>
     </div>
-
-    <div class="container">
-        <h3>منصات لرفع وموقعك مجانا</h3>
-        <div class="social-buttons">
-            <a href="https://github.com/your-username/your-repo" class="social-button github" target="_blank">GitHub</a>
-            <a href="https://render.com/your-app-link" class="social-button render" target="_blank">Render</a>
-        </div>
-    </div>
-    """)
+    """)  # <-- تأكد من هذه العلامات الثلاثية والقوسين
 
 # تشغيل التطبيق
 PORT = int(os.getenv("PORT", 10000))
