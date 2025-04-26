@@ -30,8 +30,8 @@ def web_main():
         }
         /* --- تغيير أبعاد الصور المصغرة --- */
         .social-image {
-            width: 300px; /* هذا مكان تغيير عرض الصورة */
-            height: 290px; /* هذا مكان تغيير ارتفاع الصورة */
+            width: 280px; /* هذا مكان تغيير عرض الصورة */
+            height: 400px; /* هذا مكان تغيير ارتفاع الصورة */
             margin: 10px;
             border-radius: 8px;
             cursor: pointer;
