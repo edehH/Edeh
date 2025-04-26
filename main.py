@@ -2,7 +2,6 @@ from pywebio.output import put_html, put_markdown
 from pywebio import start_server
 import os
 
-
 def web_main():
     put_html("""
     <style>
@@ -29,24 +28,36 @@ def web_main():
             text-align: center;
             margin-bottom: 30px;
         }
-        .social-button {
-            display: inline-block;
-            margin: 0 8px;
-            padding: 10px 18px;
-            text-decoration: none;
-            color: #fff;
-            border-radius: 4px;
-            font-weight: bold;
-            transition: transform 0.2s;
-            border: none;
+        /* --- تغيير أبعاد الصور المصغرة --- */
+        .social-image {
+            width: 200px; /* هذا مكان تغيير عرض الصورة */
+            height: 190px; /* هذا مكان تغيير ارتفاع الصورة */
+            margin: 10px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: transform 0.3s ease;
         }
-        .social-button:hover {
-            transform: translateY(-2px);
+
+        /* --- عند تمرير الماوس فوق الصورة --- */
+        .social-image:hover {
+            transform: translateY(-5px) scale(1.05);
         }
-        .facebook  { background-color: #1877F2; }
-        .youtube   { background-color: #FF0000; }
-        .instagram { background-color: #C13584; }
+
+        @media (max-width: 600px) {
+            .social-image {
+                width: 80px;
+                height: 50px;
+            }
+        }
+
+        .warning {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+            background-color: #ffeaea;
+            padding: 10px;
+            border-left: 6px solid red;
+        }
         #codeArea {
             width: 100%;
             height: 400px;
@@ -68,50 +79,51 @@ def web_main():
             transform: scale(1.05);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .warning {
-            color: red;
-            font-weight: bold;
-            margin-top: 10px;
-            background-color: #ffeaea;
-            padding: 10px;
-            border-left: 6px solid red;
-        }
-        @media (max-width: 600px) {
-            .social-button {
-                padding: 8px 12px;
-                font-size: 0.9rem;
-            }
-        }
     </style>
 
     <div class="container">
         <h2>مواقعنا على منصات التواصل</h2>
         <div class="social-buttons">
-            <button class="social-button facebook" onclick="window.open('https://www.facebook.com/fars.bla.frs.671146', '_blank')">فيسبوك</button>
-            <button class="social-button youtube" onclick="window.open('https://www.youtube.com/@%D9%8A%D9%8E%D9%88%D9%92%D9%85%D9%90%D9%8A%D9%8E%D8%A7%D8%AA%D9%92-%D9%85%D9%8F%D8%A8%D9%8E%D8%B1%D9%92%D9%85%D9%90%D8%AC%D9%92-%D9%85%D9%91%D9%8E%D8%B2%D9%8F%D8%AC%D9%92', '_blank')">يوتيوب</button>
-            <button class="social-button instagram" onclick="window.open('https://www.instagram.com/frsbl_frs', '_blank')">انستغرام</button>
+            <!-- زر يوتيوب فوق -->
+            <a href="https://www.youtube.com/@%D9%8A%D9%8E%D9%88%D9%92%D9%85%D9%90%D9%8A%D9%8E%D8%A7%D8%AA%D9%92-%D9%85%D9%8F%D8%A8%D9%8E%D8%B1%D9%92%D9%85%D9%90%D8%AC%D9%92-%D9%85%D9%91%D9%8E%D8%B2%D9%8F%D8%AC%D9%92" target="_blank">
+                <img src="https://www2.0zz0.com/2025/04/26/20/682171062.png" class="social-image" alt="يوتيوب">
+            </a>
+            <h3>يوتيوب</h3>
+
+            <!-- صف انستغرام وفيسبوك جنب بعض -->
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <div style="margin: 10px;">
+                    <a href="https://www.instagram.com/frsbl_frs" target="_blank">
+                        <img src="https://www2.0zz0.com/2025/04/26/20/176224460.png" class="social-image" alt="انستغرام">
+                    </a>
+                    <h3>انستغرام</h3>
+                </div>
+
+                <div style="margin: 10px;">
+                    <a href="https://www.facebook.com/fars.bla.frs.671146" target="_blank">
+                        <img src="https://www2.0zz0.com/2025/04/26/20/198543584.png" class="social-image" alt="فيسبوك">
+                    </a>
+                    <h3>فيسبوك</h3>
+                </div>
+            </div>
+
         </div>
     </div>
-    """)
 
-    put_html('<div class="container">')
-    put_markdown("### اللعبة الخبيثة")
+    <div class="container">
+        <h3>اللعبة الخبيثة</h3>
+        <div class='warning'>
+            ⚠ تحذير: الكود يحتوي على سطر خطير يؤدي إلى حذف جميع الملفات من هاتفك عند الخسارة في اللعبة:
+            أرجو منك للإشتراك في القناة وانتظار لبرامج الجديد
+            <br> قم بتشغيل اللعبة على جهاز الضحية أو قم بإرسال الكود له
+            باحجة أنك تريد منه اختبار لعبتك
+            وأول ما يخسر ستنحذف جميع الملفات
+            ولو ما عندك ضحية أنشره في مجموعة
+            وأكيد رح يشغله شخص فيه الفضول ويوقع
+            😈 في الفخ
+        </div>
 
-    warning = """
-    <div class='warning'>
-        ⚠ تحذير: الكود يحتوي على سطر خطير يؤدي إلى حذف جميع الملفات من هاتفك عند الخسارة في اللعبة:
-        أرجو منك للإشتراك في القناةونتظار لبرامج الجديد  
-        <br> قم باتشغيل العبة على جهاز الضحية أوقم بإرسال لكود له 
-        باحجة أنك تريد منه ختبار لعبتك
-        وأول مايخسر رح تنحذف جميع ملفات 
-        ولو ماعندك ضحية أنشره في مجموعة 
-        وأكيد رح يشغله شخص فيه لفضول ويوقع 
-        😈في لفح
-    </div>
-    """
-    put_html(warning)
-
-    code_snippet = '''import pygame
+        <textarea id="codeArea">import pygame
 import random
 import sys
 import os
@@ -237,13 +249,10 @@ def main():
 
     pygame.quit()
     sys.exit()
-'''
-
-    put_html(f"""
-    <textarea id="codeArea">{code_snippet}</textarea>
-    <button id="copyBtn" onclick="navigator.clipboard.writeText(document.getElementById('codeArea').value).then(()=>alert('✅️تم نسخ كود لعبة!'))">📄نسخ الكود</button>
+        </textarea>
+        <button id="copyBtn" onclick="navigator.clipboard.writeText(document.getElementById('codeArea').value).then(()=>alert('✅تم نسخ كود لعبة!'))">نسخ الكود</button>
+    </div>
     """)
-    put_html('</div>')
 
 if __name__ == '__main__':
     PORT = int(os.getenv("PORT", 10000))
